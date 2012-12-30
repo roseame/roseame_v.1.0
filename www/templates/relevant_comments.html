@@ -1,0 +1,34 @@
+<div class="topbox">
+<a class="title" href="{{ link_url }}/best-comments" title="{% trans _('los sombreados de rojo son de usuarios que votaron negativo') %}">{% trans _('Comentarios destacados') %}:</a>&nbsp;
+{% for obj in objects %}
+	<a class="tooltip c:{{ obj.link_id }}-{{ obj.order }}" href="{{obj.link}}" rel="nofollow"><img 
+		{% if obj.vote < 0 %}
+			src="{% exec get_avatar_url obj.user_id, obj.avatar, 25 %}" 
+			alt="" width="25" height="25" 
+			class="avatar shadow-red"
+		{% else %}
+			src="{% exec get_avatar_url obj.user_id, obj.avatar, 20 %}" 
+			alt="" width="20" height="20" 
+			{% if obj.vote > 0 %}
+				class="avatar shadow-green"
+			{% else %}
+				class="avatar"
+			{% endif %}
+		{% endif %}
+		/></a>&nbsp;
+{% endfor %}
+{% if self %}
+	<div style="margin-top:5px;margin-bottom:3px">
+		<div style="float:left;">
+		<a class="tooltip c:{{ self.link_id }}-{{ self.c_order }}" href="{{self.link}}" rel="nofollow"><img 
+			src="{% exec get_avatar_url self.author, self.avatar, 25 %}" 
+			alt="" width="25" height="25" 
+			class="avatar shadow-red" style="vertical-align:text-top"
+			/></a>
+		</div>
+		<div style="white-space:normal;margin:0 20px 0 30px;font-size:9pt;color:#666;a:link {color:#FF0000;}">
+		{% include 'comment_summary_text.html' %}
+		</div>
+	</div>
+{% endif %}
+</div>
