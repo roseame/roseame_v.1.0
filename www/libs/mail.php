@@ -16,7 +16,7 @@ function send_mail($to, $subject, $message) {
 	$subject = mb_encode_mimeheader("$domain: $subject","UTF-8", "B", "\n");
 	$message = wordwrap($message, 70);
         
-        $headers = array('From' => 'admin@roseame.net',
+        $headers = array('From' => $globals['email_user'],
                          'To' => $to,
                          'Subject' => $subject );
 
@@ -62,21 +62,21 @@ function send_recover_mail ($user) {
 	$message .= "-- \n  " . _('el equipo de roséame');
 	$message = wordwrap($message, 70);
 	
-        $headers = array('From' => 'admin@roseame.net',
+        $headers = array('From' => $globals['email_user'],
                          'To' => $to,
                          'Subject' => $subject );
 
         $smtp = Mail::factory('smtp',array (
-                  'host' => 'mail.roseame.net',
+                  'host' => $globals['email_domain'],
                   'port' => '25',
                   'auth' => true,
-                  'username' => 'admin@roseame.net', 
-                  'password' => 'carpenoctem'
+                  'username' => $globals['email_user'], 
+                  'password' => $globals['email_password']
               ));
          $mail = $smtp->send($to, $headers, $message);
 
          if (PEAR::isError($mail)) {
-	     echo '<p><strong>' ._ ('Error al enviar el correo. Intentelo de nuevo mas tarde. ') .  $mail->getMessage() . '</strong></p>';
+	          echo '<p><strong>' ._ ('Error al enviar el correo. Intentelo de nuevo mas tarde. ') .  $mail->getMessage() . '</strong></p>';
          } else {
              echo '<p><strong>' ._ ('Correo enviado, mira tu buzón, allí están las instrucciones. Mira también en la carpeta de spam.') . '</strong></p>';
              return true;

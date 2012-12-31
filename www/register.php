@@ -143,6 +143,7 @@ function do_register2() {
 			echo '<legend><span class="sign">'._("registro de usuario").'</span></legend>'."\n";
 			$user=new User();
 			$user->username=$username;
+		   $user->email=$email;
 			if(!$user->read()) {
 				register_error(_('error insertando usuario en la base de datos'));
 			} else {
